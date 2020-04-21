@@ -1,44 +1,44 @@
 #ifndef PMVS3_EXPAND_H
 #define PMVS3_EXPAND_H
 
-#include <vector>
-#include <queue>
 #include <list>
+#include <queue>
+#include <vector>
 #include "patchOrganizerS.h"
 
 namespace PMVS3 {
 class CfindMatch;
-  
+
 class Cexpand {
  public:
   Cexpand(CfindMatch& findMatch);
-  ~Cexpand() {};
+  ~Cexpand(){};
 
   void init();
   void run();
 
   float computeRadius(const Patch::Cpatch& patch);
-  
+
  protected:
   int expandSub(const Patch::Ppatch& orgppatch, const int id,
                 const Vec4f& canCoord);
-  
+
   int updateCounts(const Patch::Cpatch& patch);
-  
+
   int checkCounts(Patch::Cpatch& patch);
-  
+
   void findEmptyBlocks(const Patch::Ppatch& ppatch,
                        std::vector<std::vector<Vec4f> >& canCoords);
- protected:
 
+ protected:
   std::priority_queue<Patch::Ppatch, std::vector<Patch::Ppatch>, P_compare>
-    m_queue;
-  
+      m_queue;
+
   CfindMatch& m_fm;
-  
+
   //-----------------------------------------------------------------
   // thread related
-  //-----------------------------------------------------------------  
+  //-----------------------------------------------------------------
   void expandThread();
   static int expandThreadTmp(void* arg);
 
@@ -51,6 +51,7 @@ class Cexpand {
   // Number passes
   std::vector<int> m_pcounts;
 };
-};
 
-#endif // PMVS3_EXPAND_H
+}  // PMVS3
+
+#endif  // PMVS3_EXPAND_H
