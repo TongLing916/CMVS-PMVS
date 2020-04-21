@@ -511,10 +511,13 @@ void Coptim::computeUnits(const Patch::Cpatch& patch, std::vector<int>& indexes,
 }
 
 void Coptim::refinePatch(Cpatch& patch, const int id, const int time) {
-  if (!refinePatchBFGS(patch, id, 1000, 1))
+  if (!refinePatchBFGS(patch, id, 1000, 1)) {
     std::cout << "refinePatchBFGS failed!" << std::endl;
+  }
 
-  if (patch.m_images.empty()) return;
+  if (patch.m_images.empty()) {
+    return;
+  }
 }
 
 //----------------------------------------------------------------------

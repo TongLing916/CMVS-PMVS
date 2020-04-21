@@ -34,7 +34,7 @@ void Cseed::readPoints(const std::vector<std::vector<Cpoint> >& points) {
       const int ix = ((int)floor(ppoint->m_icoord[0] + 0.5f)) / m_fm.m_csize;
       const int iy = ((int)floor(ppoint->m_icoord[1] + 0.5f)) / m_fm.m_csize;
       const int index2 = iy * m_fm.m_pos.m_gwidths[index] + ix;
-      m_ppoints[index][index2].push_back(ppoint);
+      m_ppoints[index][index2].emplace_back(ppoint);
     }
   }
 }
@@ -55,7 +55,9 @@ void Cseed::run() {
   fill(m_pcounts.begin(), m_pcounts.end(), 0);
 
   vector<int> vitmp;
-  for (int i = 0; i < m_fm.m_tnum; ++i) vitmp.push_back(i);
+  for (int i = 0; i < m_fm.m_tnum; ++i) {
+    vitmp.emplace_back(i);
+  }
 
   std::mt19937 gen(RANDOM_SEED);
   shuffle(vitmp.begin(), vitmp.end(), gen);
@@ -77,9 +79,12 @@ void Cseed::run() {
   time(&tv);
   time_t curtime = tv;
   vector<thrd_t> threads(m_fm.m_CPU);
-  for (int i = 0; i < m_fm.m_CPU; ++i)
+  for (int i = 0; i < m_fm.m_CPU; ++i) {
     thrd_create(&threads[i], &initialMatchThreadTmp, (void*)this);
-  for (int i = 0; i < m_fm.m_CPU; ++i) thrd_join(threads[i], NULL);
+  }
+  for (int i = 0; i < m_fm.m_CPU; ++i) {
+    thrd_join(threads[i], nullptr);
+  }
   //----------------------------------------------------------------------
   cerr << "done" << endl;
   time(&tv);
@@ -111,7 +116,9 @@ void Cseed::initialMatchThread() {
       m_fm.m_jobs.pop_front();
     }
     mtx_unlock(&m_fm.m_lock);
-    if (index == -1) break;
+    if (index == -1) {
+      break;
+    }
 
     initialMatch(index, id);
   }
@@ -128,9 +135,13 @@ void Cseed::initialMatch(const int index, const int id) {
   vector<int> indexes;
   m_fm.m_optim.collectImages(index, indexes);
 
-  if (m_fm.m_tau < (int)indexes.size()) indexes.resize(m_fm.m_tau);
+  if (m_fm.m_tau < (int)indexes.size()) {
+    indexes.resize(m_fm.m_tau);
+  }
 
-  if (indexes.empty()) return;
+  if (indexes.empty()) {
+    return;
+  }
 
   int totalcount = 0;
   //======================================================================
@@ -143,7 +154,9 @@ void Cseed::initialMatch(const int index, const int id) {
   for (int y = 0; y < gheight; ++y) {
     for (int x = 0; x < gwidth; ++x) {
       ++index2;
-      if (!canAdd(index, x, y)) continue;
+      if (!canAdd(index, x, y)) {
+        continue;
+      }
 
       for (int p = 0; p < (int)m_ppoints[index][index2].size(); ++p) {
         // collect features that satisfies epipolar geometry
@@ -170,16 +183,20 @@ void Cseed::initialMatch(const int index, const int id) {
           const int iy =
               ((int)floor(vcp[i]->m_icoord[1] + 0.5f)) / m_fm.m_csize;
           const int index3 = iy * m_fm.m_pos.m_gwidths[vcp[i]->m_itmp] + ix;
-          if (vcp[i]->m_itmp < m_fm.m_tnum)
+          if (vcp[i]->m_itmp < m_fm.m_tnum) {
             ++m_fm.m_pos.m_counts[vcp[i]->m_itmp][index3];
+          }
 
           const int flag = initialMatchSub(index, vcp[i]->m_itmp, id, patch);
           if (flag == 0) {
             ++count;
             if (bestpatch.score(m_fm.m_nccThreshold) <
-                patch.score(m_fm.m_nccThreshold))
+                patch.score(m_fm.m_nccThreshold)) {
               bestpatch = patch;
-            if (m_fm.m_countThreshold0 <= count) break;
+            }
+            if (m_fm.m_countThreshold0 <= count) {
+              break;
+            }
           }
         }
         if (count != 0) {
@@ -224,11 +241,15 @@ void Cseed::collectCells(const int index0, const int index1, const Cpoint& p0,
       fx = max((float)(INT_MIN + 3.0f), std::min((float)(INT_MAX - 3.0f), fx));
 
       const int ix = ((int)floor(fx + 0.5f)) / m_fm.m_csize;
-      if (0 <= ix && ix < gwidth) cells.push_back(TVec2<int>(ix, y));
-      if (0 <= ix - 1 && ix - 1 < gwidth)
-        cells.push_back(TVec2<int>(ix - 1, y));
-      if (0 <= ix + 1 && ix + 1 < gwidth)
-        cells.push_back(TVec2<int>(ix + 1, y));
+      if (0 <= ix && ix < gwidth) {
+        cells.emplace_back(TVec2<int>(ix, y));
+      }
+      if (0 <= ix - 1 && ix - 1 < gwidth) {
+        cells.emplace_back(TVec2<int>(ix - 1, y));
+      }
+      if (0 <= ix + 1 && ix + 1 < gwidth) {
+        cells.emplace_back(TVec2<int>(ix + 1, y));
+      }
     }
   } else {
     for (int x = 0; x < gwidth; ++x) {
@@ -237,11 +258,15 @@ void Cseed::collectCells(const int index0, const int index1, const Cpoint& p0,
       fy = max((float)(INT_MIN + 3.0f), std::min((float)(INT_MAX - 3.0f), fy));
 
       const int iy = ((int)floor(fy + 0.5f)) / m_fm.m_csize;
-      if (0 <= iy && iy < gheight) cells.push_back(TVec2<int>(x, iy));
-      if (0 <= iy - 1 && iy - 1 < gheight)
-        cells.push_back(TVec2<int>(x, iy - 1));
-      if (0 <= iy + 1 && iy + 1 < gheight)
-        cells.push_back(TVec2<int>(x, iy + 1));
+      if (0 <= iy && iy < gheight) {
+        cells.emplace_back(TVec2<int>(x, iy));
+      }
+      if (0 <= iy - 1 && iy - 1 < gheight) {
+        cells.emplace_back(TVec2<int>(x, iy - 1));
+      }
+      if (0 <= iy + 1 && iy + 1 < gheight) {
+        cells.emplace_back(TVec2<int>(x, iy + 1));
+      }
     }
   }
 }
@@ -263,7 +288,9 @@ void Cseed::collectCandidates(const int index, const std::vector<int>& indexes,
     for (int i = 0; i < (int)cells.size(); ++i) {
       const int x = cells[i][0];
       const int y = cells[i][1];
-      if (!canAdd(indexid, x, y)) continue;
+      if (!canAdd(indexid, x, y)) {
+        continue;
+      }
       const int index2 = y * m_fm.m_pos.m_gwidths[indexid] + x;
 
       vector<Ppoint>::iterator begin = m_ppoints[indexid][index2].begin();
@@ -281,7 +308,7 @@ void Cseed::collectCandidates(const int index, const std::vector<int>& indexes,
           ++begin;
           continue;
         }
-        vcp.push_back(*begin);
+        vcp.emplace_back(*begin);
         ++begin;
       }
     }
@@ -294,38 +321,47 @@ void Cseed::collectCandidates(const int index, const std::vector<int>& indexes,
 
     if (m_fm.m_pss.m_photos[index].m_projection[m_fm.m_level][2] *
             vcp[i]->m_coord <=
-        0.0)
+        0.0) {
       continue;
+    }
 
     if (m_fm.m_pss.getMask(vcp[i]->m_coord, m_fm.m_level) == 0 ||
-        m_fm.insideBimages(vcp[i]->m_coord) == 0)
+        m_fm.insideBimages(vcp[i]->m_coord) == 0) {
       continue;
+    }
 
     //??? from the closest
     vcp[i]->m_response = fabs(
         norm(vcp[i]->m_coord - m_fm.m_pss.m_photos[index].m_center) -
         norm(vcp[i]->m_coord - m_fm.m_pss.m_photos[vcp[i]->m_itmp].m_center));
 
-    vcptmp.push_back(vcp[i]);
+    vcptmp.emplace_back(vcp[i]);
   }
   vcptmp.swap(vcp);
-  sort(vcp.begin(), vcp.end());
+  std::sort(vcp.begin(), vcp.end());
 }
 
 int Cseed::canAdd(const int index, const int x, const int y) {
   if (!m_fm.m_pss.getMask(index, m_fm.m_csize * x, m_fm.m_csize * y,
-                          m_fm.m_level))
+                          m_fm.m_level)) {
     return 0;
+  }
 
   const int index2 = y * m_fm.m_pos.m_gwidths[index] + x;
 
-  if (m_fm.m_tnum <= index) return 1;
+  if (m_fm.m_tnum <= index) {
+    return 1;
+  }
 
   // Check if m_pgrids already contains something
-  if (!m_fm.m_pos.m_pgrids[index][index2].empty()) return 0;
+  if (!m_fm.m_pos.m_pgrids[index][index2].empty()) {
+    return 0;
+  }
 
   //??? critical
-  if (m_fm.m_countThreshold2 <= m_fm.m_pos.m_counts[index][index2]) return 0;
+  if (m_fm.m_countThreshold2 <= m_fm.m_pos.m_counts[index][index2]) {
+    return 0;
+  }
 
   return 1;
 }
@@ -389,15 +425,22 @@ void Cseed::unproject(const int index0, const int index1, const Cpoint& p0,
   Vec4 ATb = AT * b;
 
   Mat3 ATA3;
-  for (int y = 0; y < 3; ++y)
-    for (int x = 0; x < 3; ++x) ATA3[y][x] = ATA[y][x];
+  for (int y = 0; y < 3; ++y) {
+    for (int x = 0; x < 3; ++x) {
+      ATA3[y][x] = ATA[y][x];
+    }
+  }
   Vec3 ATb3;
-  for (int y = 0; y < 3; ++y) ATb3[y] = ATb[y];
+  for (int y = 0; y < 3; ++y) {
+    ATb3[y] = ATb[y];
+  }
 
   Mat3 iATA3;
   invert(iATA3, ATA3);
   Vec3 ans = iATA3 * ATb3;
-  for (int y = 0; y < 3; ++y) coord[y] = ans[y];
+  for (int y = 0; y < 3; ++y) {
+    coord[y] = ans[y];
+  }
   coord[3] = 1.0f;
 }
 
@@ -406,8 +449,8 @@ int Cseed::initialMatchSub(const int index0, const int index1, const int id,
                            Cpatch& patch) {
   //----------------------------------------------------------------------
   patch.m_images.clear();
-  patch.m_images.push_back(index0);
-  patch.m_images.push_back(index1);
+  patch.m_images.emplace_back(index0);
+  patch.m_images.emplace_back(index1);
 
   ++m_scounts[id];
 
