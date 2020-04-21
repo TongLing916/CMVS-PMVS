@@ -26,7 +26,7 @@ extern "C"
 namespace CMVS {
 class Cgraclus {
  public:
-  Cgraclus(void);
+  Cgraclus();
   virtual ~Cgraclus();
 
   // Threads free. no weights

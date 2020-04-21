@@ -4,7 +4,7 @@
 using namespace std;
 using namespace Image;
 
-Cphoto::Cphoto(void) {
+Cphoto::Cphoto() {
 }
 
 Cphoto::~Cphoto() {

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 #include "../base/pmvs/findMatch.h"
 #include "../base/pmvs/option.h"
 
@@ -8,7 +9,8 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
   if (argc < 3) {
-    cerr << "Usage: " << argv[0] << " prefix option_file [Optional export]" << endl
+    cerr << "Usage: " << argv[0] << " prefix option_file [Optional export]"
+         << endl
          << endl
          << "--------------------------------------------------" << endl
          << "level       1    csize    2" << endl
@@ -27,16 +29,15 @@ int main(int argc, char* argv[]) {
          << endl
          << "[Optional export] PATCH PSET" << endl
          << " i.e export patch and pset: prefix option_file PATCH PSET"
-         << " i.e export patch only: prefix option_file PATCH" <<endl;
-    exit (1);
+         << " i.e export patch only: prefix option_file PATCH" << endl;
+    exit(1);
   }
 
-  for(int i=0; i < argc; ++i)
-  {
-	  cout << endl << argv[i];
+  for (int i = 0; i < argc; ++i) {
+    cout << endl << argv[i];
   }
   cout << std::endl;
-  
+
   PMVS3::Soption option;
   option.init(argv[1], argv[2]);
 
@@ -48,13 +49,14 @@ int main(int argc, char* argv[]) {
   bool bExportPatch = false;
   bool bExportPSet = false;
 
-  for (int i=3; i < argc; ++i)
-  {
+  for (int i = 3; i < argc; ++i) {
     std::string option(argv[i]);
-    if (option == "PATCH")
+    if (option == "PATCH") {
       bExportPatch = true;
-    if (option == "PSET")
+    }
+    if (option == "PSET") {
       bExportPSet = true;
+    }
   }
 
   char buffer[1024];

@@ -41,10 +41,10 @@ class Charris: public Cdetector {
             const std::vector<unsigned char>& mask,
 	    const std::vector<unsigned char>& edge);
   
-  void setDerivatives(void);
-  void preprocess(void);
-  void preprocess2(void);
-  void setResponse(void);
+  void setDerivatives();
+  void preprocess();
+  void preprocess2();
+  void setResponse();
 };
 };
 

@@ -4,7 +4,7 @@
 using namespace PMVS3;
 using namespace std;
 
-Cpoint::Cpoint(void) {
+Cpoint::Cpoint() {
   m_response = -1.0;
   m_type = -1;
 }

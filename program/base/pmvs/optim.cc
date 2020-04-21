@@ -22,7 +22,7 @@ Coptim::Coptim(CfindMatch& findMatch) : m_fm(findMatch) {
   fill(m_status.begin(), m_status.end(), 0);  
 }
 
-void Coptim::init(void) {
+void Coptim::init() {
   m_vect0T.resize(m_fm.m_CPU);
   m_centersT.resize(m_fm.m_CPU);
   m_raysT.resize(m_fm.m_CPU);
@@ -44,7 +44,7 @@ void Coptim::init(void) {
   setAxesScales();
 }
 
-void Coptim::setAxesScales(void) {
+void Coptim::setAxesScales() {
   m_xaxes.resize(m_fm.m_num);
   m_yaxes.resize(m_fm.m_num);
   m_zaxes.resize(m_fm.m_num);

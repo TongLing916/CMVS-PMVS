@@ -308,10 +308,10 @@ public:
 	/*! Returns the dot product of two points
 	\param q Point to compute dot product with */
 	inline NumType  dotprod (const dpoint<NumType,D> q) const ;
-	inline NumType  sqr_length(void)  const;
+	inline NumType  sqr_length()  const;
 	/*! Normalize the length of a vector defined by the given point to 1,
             and sets current point to the result */
-	inline void     normalize (void);
+	inline void     normalize ();
 
 	/*! Dereference the coordinate at the given index */
 	inline NumType& operator[](int i);
@@ -351,7 +351,7 @@ public:
 };
 
 template<typename NumType, unsigned D>
-void dpoint<NumType,D>::normalize (void){
+void dpoint<NumType,D>::normalize (){
 	NumType len = sqrt(sqr_length());
 	if (len > 0.00001)
 	for(int i = 0; i < D; ++i){
@@ -465,7 +465,7 @@ dpoint<NumType,D>::dotprod (const dpoint<NumType,D> q) const {
 
 template<typename NumType, unsigned D>
 NumType
-dpoint<NumType,D>::sqr_length (void) const {
+dpoint<NumType,D>::sqr_length () const {
 	return DotProd<NumType,D,D-1>::eval(*this,*this);
 }
 

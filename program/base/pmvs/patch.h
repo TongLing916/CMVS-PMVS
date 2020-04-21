@@ -10,7 +10,7 @@ namespace Patch {
 
 class Cpatch {
  public:
-  Cpatch(void) {
+  Cpatch() {
     m_ncc = -1.0;
     m_timages = 0;
     m_fix = 0;

@@ -10,7 +10,7 @@ using namespace PMVS3;
 using namespace std;
 using namespace Image;
 
-CdetectFeatures::CdetectFeatures(void) {
+CdetectFeatures::CdetectFeatures() {
   mtx_init(&m_rwlock, mtx_plain | mtx_recursive);
 }
 
@@ -48,7 +48,7 @@ int CdetectFeatures::runThreadTmp(void* arg) {
   return 0;
 }
 
-void CdetectFeatures::runThread(void) {
+void CdetectFeatures::runThread() {
   while (1) {
     int index = -1;
     mtx_lock(&m_rwlock);

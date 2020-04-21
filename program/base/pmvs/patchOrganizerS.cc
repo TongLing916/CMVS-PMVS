@@ -53,7 +53,7 @@ void CpatchOrganizerS::index2image(Cpatch& patch) {
     patch.m_vimages[i] = m_fm.m_pss.m_images[patch.m_vimages[i]];
 }
 
-void CpatchOrganizerS::init(void) {
+void CpatchOrganizerS::init() {
   m_pgrids.clear();   m_pgrids.resize(m_fm.m_tnum);
   m_vpgrids.clear();  m_vpgrids.resize(m_fm.m_tnum);
   m_dpgrids.clear();  m_dpgrids.resize(m_fm.m_tnum);
@@ -127,7 +127,7 @@ void CpatchOrganizerS::writePatches2(const std::string prefix, bool bExportPLY, 
   }
 }
 
-void CpatchOrganizerS::readPatches(void) {
+void CpatchOrganizerS::readPatches() {
   // Read-in existing reconstructed points. set m_fix to one for non-targeting images
   for (int i = 0; i < m_fm.m_tnum; ++i) {
     const int image = m_fm.m_images[i];
@@ -282,7 +282,7 @@ void CpatchOrganizerS::collectNonFixPatches(const int index,
   }
 }
 
-void CpatchOrganizerS::clearFlags(void) {
+void CpatchOrganizerS::clearFlags() {
   vector<Ppatch>::iterator bppatch = m_ppatches.begin();
   vector<Ppatch>::iterator eppatch = m_ppatches.end();
 
@@ -292,7 +292,7 @@ void CpatchOrganizerS::clearFlags(void) {
   }
 }
 
-void CpatchOrganizerS::clearCounts(void) {
+void CpatchOrganizerS::clearCounts() {
   for (int index = 0; index < m_fm.m_tnum; ++index) {
     vector<unsigned char>::iterator begin = m_counts[index].begin();
     vector<unsigned char>::iterator end = m_counts[index].end();

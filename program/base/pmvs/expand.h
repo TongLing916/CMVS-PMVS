@@ -14,8 +14,8 @@ class Cexpand {
   Cexpand(CfindMatch& findMatch);
   ~Cexpand() {};
 
-  void init(void);
-  void run(void);
+  void init();
+  void run();
 
   float computeRadius(const Patch::Cpatch& patch);
   
@@ -39,7 +39,7 @@ class Cexpand {
   //-----------------------------------------------------------------
   // thread related
   //-----------------------------------------------------------------  
-  void expandThread(void);
+  void expandThread();
   static int expandThreadTmp(void* arg);
 
   // Number of trials

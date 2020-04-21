@@ -19,7 +19,7 @@ class CpatchOrganizerS {
  public:
   CpatchOrganizerS(CfindMatch& findMatch);
 
-  void init(void);
+  void init();
   void collectPatches(const int target = 0);
   void collectPatches(std::priority_queue<Patch::Ppatch, std::vector<Patch::Ppatch>,
                       P_compare>& pqpatches);
@@ -37,10 +37,10 @@ class CpatchOrganizerS {
                 const std::string filename,
                 const std::vector<Vec3i>& colors);
   
-  void readPatches(void);
+  void readPatches();
   
-  void clearCounts(void);
-  void clearFlags(void);
+  void clearCounts();
+  void clearFlags();
 
   void setGridsImages(Patch::Cpatch& patch,
                       const std::vector<int>& images) const;

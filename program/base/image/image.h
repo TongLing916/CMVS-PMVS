@@ -11,7 +11,7 @@ namespace Image {
 
 class Cimage {
  public:
-  Cimage(void);
+  Cimage();
   virtual ~Cimage();
 
   virtual void init(const std::string name, const std::string mname,
@@ -54,15 +54,15 @@ class Cimage {
   
   inline int isSafe(const Vec3f& icoord, const int level) const;
   // Check if a mask image exists
-  inline int isMask(void) const;
+  inline int isMask() const;
   // Check if an edge image exists
-  inline int isEdge(void) const;
+  inline int isEdge() const;
   
   //allocate and free memories, this function is also called when you call
   //getColor/getMask when the memory is not allocated
   void alloc(const int fast = 0, const int filter = 0);
   // free memory
-  void free(void);
+  void free();
   // free memory below the specified level
   void free(const int freeLevel);
 
@@ -171,11 +171,11 @@ class Cimage {
   // build image pyramids
   void buildImageMaskEdge(const int filter);
   void buildImage(const int filter);
-  void buildMask(void);
-  void buildEdge(void);
+  void buildMask();
+  void buildEdge();
   
 #ifdef FURUKAWA_IMAGE_GAMMA
-  void decodeGamma(void);
+  void decodeGamma();
 #endif
   
   //----------------------------------------------------------------------
@@ -233,7 +233,7 @@ inline int Cimage::isSafe(const Vec3f& icoord, const int level) const {
 };
  
 // Check if a mask image exists
-inline int Cimage::isMask(void) const {
+inline int Cimage::isMask() const {
   if (m_masks[0].empty())
     return 0;
   else
@@ -241,7 +241,7 @@ inline int Cimage::isMask(void) const {
  };
  
 // Check if an edge image exists
-inline int Cimage::isEdge(void) const {
+inline int Cimage::isEdge() const {
   if (m_edges[0].empty())
     return 0;
   else

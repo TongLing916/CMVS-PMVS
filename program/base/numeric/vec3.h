@@ -51,13 +51,13 @@ private:
   inline bool operator==(const TVec3& v) const;
   inline bool operator!=(const TVec3& v) const;
   
-  inline T norm2(void) const{
+  inline T norm2() const{
     return (*this) * (*this);
   }
-  inline T norm(void) const{
+  inline T norm() const{
     return sqrt(norm2());
   }
-  inline void unitize(void) {
+  inline void unitize() {
     const T denom2 = norm2();
     
     if(denom2 != 1.0 && denom2 != 0.0 ) {
@@ -67,7 +67,7 @@ private:
       m_elt[2] /= denom;
     }
   }
-  inline T sum(void) const {
+  inline T sum() const {
     return m_elt[0] + m_elt[1] + m_elt[2];
   }
   

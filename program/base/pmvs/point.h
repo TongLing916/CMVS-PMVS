@@ -7,7 +7,7 @@
 namespace PMVS3 {
 class Cpoint {
  public:
-  Cpoint(void);
+  Cpoint();
   virtual ~Cpoint();
   
   Vec3f m_icoord;

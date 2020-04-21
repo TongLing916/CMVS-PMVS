@@ -28,7 +28,7 @@ struct Sadd {
 };
 
 struct Ssfm2 {
-  Ssfm2(void) : m_cluster(-1), m_score(-2.0f),
+  Ssfm2() : m_cluster(-1), m_score(-2.0f),
                 m_scoreThreshold(-1.0f), m_satisfied(1) {
   }
   // which cluster it belongs to currently
@@ -59,7 +59,7 @@ struct Ssfm2 {
 
 class Cbundle {
  public:
-  Cbundle(void);
+  Cbundle();
   virtual ~Cbundle();
   
   void run(const std::string prefix, const int imageThreshold,
@@ -111,47 +111,47 @@ class Cbundle {
             const float coverageThreshold, const int pnumThreshold,
             const int CPU);
 
-  void prep2(void);
+  void prep2();
   
   void readBundle(const std::string file);
-  void setWidthsHeightsLevels(void);
-  void setNeighbors(void);
+  void setWidthsHeightsLevels();
+  void setNeighbors();
   
-  int totalNum(void) const;
+  int totalNum() const;
 
   // set m_scoreThresholds
-  void setScoreThresholds(void);
+  void setScoreThresholds();
   
-  void resetVisibles(void);
+  void resetVisibles();
   
   // set new images without image while taking into account m_removed
   void setNewImages(const int pid, const int rimage,
                     std::vector<int>& newimages);
 
-  void sRemoveImages(void);
+  void sRemoveImages();
   void checkImage(const int image);
   
   void setCluster(const int p);
   
-  void setScoresClusters(void);
+  void setScoresClusters();
   
   // For unsatisfied sfm points, update cluster
-  void setClusters(void);
+  void setClusters();
 
-  void slimNeighborsSetLinks(void);
+  void slimNeighborsSetLinks();
   
   float computeLink(const int image0, const int image1);
   
-  void addImagesP(void);
-  int addImages(void);
+  void addImagesP();
+  int addImages();
   int addImagesSub(const std::vector<std::map<int, float> >& cands);
   
   // angle score
   static float angleScore(const Vec4f& ray0, const Vec4f& ray1);
   
-  void mergeSfM(void);
-  void mergeSfMP(void);
-  void mergeSfMPThread(void);
+  void mergeSfM();
+  void mergeSfMP();
+  void mergeSfMPThread();
   static int mergeSfMPThreadTmp(void* arg); 
     
   std::vector<char> m_merged;
@@ -159,7 +159,7 @@ class Cbundle {
   void findPNeighbors(sfcnn<const float*, 3, float>& tree,
                       const int pid, std::vector<int>& pneighbors);
   
-  void resetPoints(void);
+  void resetPoints();
   
   static void mymerge(const std::vector<int>& lhs,
                       const std::vector<int>& rhs,
@@ -169,7 +169,7 @@ class Cbundle {
                             const std::vector<int>& rhs);
   
   // Cluster images
-  void setTimages(void);
+  void setTimages();
   void divideImages(const std::vector<int>& lhs,
                     std::vector<std::vector<int> >& rhs);
 
@@ -183,9 +183,9 @@ class Cbundle {
                       const std::vector<int>& images,
                       const int index) const;
 
-  void writeCameraCenters(void);
-  void writeVis(void);
-  void writeGroups(void);
+  void writeCameraCenters();
+  void writeVis();
+  void writeGroups();
   //-----------------------------------------------------------------
   //-----------------------------------------------------------------
   // Link info
@@ -268,8 +268,8 @@ class Cbundle {
   int m_debug;
 
 
-  void startTimer(void);
-  time_t curTimer(void);
+  void startTimer();
+  time_t curTimer();
   
   time_t m_tv; //PM
   time_t m_curtime;

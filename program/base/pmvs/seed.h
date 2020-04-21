@@ -18,8 +18,8 @@ class Cseed {
   virtual ~Cseed() {};
 
   void init(const std::vector<std::vector<Cpoint> >& points);
-  void run(void);
-  void clear(void);
+  void run();
+  void clear();
 
  protected:
   void readPoints(const std::vector<std::vector<Cpoint> >& points);
@@ -47,7 +47,7 @@ class Cseed {
   //----------------------------------------------------------------------
   // thread related
   //----------------------------------------------------------------------
-  void initialMatchThread(void);
+  void initialMatchThread();
   static int initialMatchThreadTmp(void* arg);
 
   // Number of trials

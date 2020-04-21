@@ -13,13 +13,13 @@ namespace Image {
 
 class Ccamera {
  public:
-  Ccamera(void);
+  Ccamera();
   virtual ~Ccamera();
   
   // Update projection matrices from intrinsics and extrinsics
-  void updateProjection(void);
+  void updateProjection();
   // Update all the camera related parameters
-  void updateCamera(void);
+  void updateCamera();
 
   virtual void init(const std::string cname, const int maxLevel);
   void write(const std::string file);
@@ -87,7 +87,7 @@ class Ccamera {
 
   float m_axesScale;
 
-  Vec4f getOpticalCenter(void) const;
+  Vec4f getOpticalCenter() const;
 };
 
 inline Vec3f Ccamera::project(const Vec4f& coord,

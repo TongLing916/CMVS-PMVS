@@ -14,10 +14,10 @@ using namespace std;
 Cfilter::Cfilter(CfindMatch& findMatch) : m_fm(findMatch) {
 }
 
-void Cfilter::init(void) {
+void Cfilter::init() {
 }
 
-void Cfilter::run(void) {
+void Cfilter::run() {
   setDepthMapsVGridsVPGridsAddPatchV(0);
 
   filterOutside();
@@ -33,7 +33,7 @@ void Cfilter::run(void) {
   setDepthMapsVGridsVPGridsAddPatchV(1);
 }
 
-void Cfilter::filterOutside(void) {
+void Cfilter::filterOutside() {
   time_t tv;
   time(&tv); 
   time_t curtime = tv;
@@ -150,7 +150,7 @@ float Cfilter::computeGain(const Patch::Cpatch& patch, const int lock) {
   return gain;
 }
 
-void Cfilter::filterOutsideThread(void) {
+void Cfilter::filterOutsideThread() {
   mtx_lock(&m_fm.m_lock);
   const int id = m_fm.m_count++;
   mtx_unlock(&m_fm.m_lock);
@@ -216,7 +216,7 @@ int Cfilter::filterOutsideThreadTmp(void* arg) {
   return 0;
 }
 
-void Cfilter::filterExact(void) {
+void Cfilter::filterExact() {
   time_t tv;
   time(&tv); 
   time_t curtime = tv;
@@ -301,7 +301,7 @@ void Cfilter::filterExact(void) {
        << "%)\t" << (tv - curtime) / CLOCKS_PER_SEC << " secs" << endl;
 }
 
-void Cfilter::filterExactThread(void) {
+void Cfilter::filterExactThread() {
   const int psize = (int)m_fm.m_pos.m_ppatches.size();
   vector<vector<int> > newimages, removeimages;
   vector<vector<TVec2<int> > > newgrids, removegrids;
@@ -375,7 +375,7 @@ int Cfilter::filterExactThreadTmp(void* arg) {
   return 0;
 }
 
-void Cfilter::filterNeighborThread(void) {
+void Cfilter::filterNeighborThread() {
   const int size = (int)m_fm.m_pos.m_ppatches.size();  
   while (1) {
     int jtmp = -1;
@@ -571,7 +571,7 @@ void Cfilter::filterNeighbor(const int times) {
 //----------------------------------------------------------------------
 // Take out small connected components
 //----------------------------------------------------------------------
-void Cfilter::filterSmallGroups(void) {
+void Cfilter::filterSmallGroups() {
   time_t tv;
   time(&tv); 
   time_t curtime = tv;
@@ -722,7 +722,7 @@ void Cfilter::filterSmallGroupsSub(const int pid, const int id,
   }
 }
 
-void Cfilter::setDepthMaps(void) {
+void Cfilter::setDepthMaps() {
   // initialize
   for (int index = 0; index < m_fm.m_tnum; ++index) {
     fill(m_fm.m_pos.m_dpgrids[index].begin(), m_fm.m_pos.m_dpgrids[index].end(),
@@ -742,7 +742,7 @@ int Cfilter::setDepthMapsThreadTmp(void* arg) {
   return 0;
 }
 
-void Cfilter::setDepthMapsThread(void) {
+void Cfilter::setDepthMapsThread() {
   while (1) {
     mtx_lock(&m_fm.m_lock);
     const int index = m_fm.m_count++;
@@ -842,7 +842,7 @@ int Cfilter::addPatchVThreadTmp(void* arg) {
   return 0;
 }
 
-void Cfilter::setVGridsVPGridsThread(void) {
+void Cfilter::setVGridsVPGridsThread() {
   const int noj = 1000;
   const int size = (int)m_fm.m_pos.m_ppatches.size();    
   const int job = max(1, size / (noj - 1));
@@ -866,7 +866,7 @@ void Cfilter::setVGridsVPGridsThread(void) {
   }
 }
 
-void Cfilter::addPatchVThread(void) {
+void Cfilter::addPatchVThread() {
   while (1) {
     mtx_lock(&m_fm.m_lock);
     const int index = m_fm.m_count++;

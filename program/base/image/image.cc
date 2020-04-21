@@ -33,7 +33,7 @@ using namespace Image;
 /* max3 -- return maximum of 3 values */
 #define max3(a, b, c) ((a)>(b) ? ((a)>(c) ? (a) : (c)) : ((b)>(c) ? (b) : (c)))
 
-Cimage::Cimage(void) {
+Cimage::Cimage() {
   m_alloc = 0;
 }
 
@@ -185,7 +185,7 @@ void Cimage::alloc(const int fast, const int filter) {
 }
 
 #ifdef FURUKAWA_IMAGE_GAMMA
-void Cimage::decodeGamma(void) {
+void Cimage::decodeGamma() {
   m_dimages[0].resize((int)m_images[0].size());
   for (int i = 0; i < (int)m_images[0].size(); ++i) {
     float ftmp = (float)m_images[0][i] / 255.0;
@@ -198,7 +198,7 @@ void Cimage::decodeGamma(void) {
 #endif
 
 /*
-void Cimage::setColor(void) {
+void Cimage::setColor() {
   m_color = 0;
   int index = 0;
   for (int y = 0; y < m_heights[0]; ++y) {
@@ -232,7 +232,7 @@ void Cimage::free(const int freeLevel) {
   }
 }
 
-void Cimage::free(void) {
+void Cimage::free() {
   if (m_alloc != 0)
     m_alloc = 1;
   else
@@ -348,7 +348,7 @@ void Cimage::buildImage(const int filter) {
   }
 }
 
-void Cimage::buildMask(void) {
+void Cimage::buildMask() {
   //----------------------------------------------------------------------
   // mask
   for (int level = 1; level < m_maxLevel; ++level) {
@@ -382,7 +382,7 @@ void Cimage::buildMask(void) {
   }
 }
 
-void Cimage::buildEdge(void) {
+void Cimage::buildEdge() {
   //----------------------------------------------------------------------
   // edge
   for (int level = 1; level < m_maxLevel; ++level) {

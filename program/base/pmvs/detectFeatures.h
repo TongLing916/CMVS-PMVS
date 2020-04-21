@@ -19,7 +19,7 @@ namespace PMVS3 {
 
 class CdetectFeatures {
  public:
-  CdetectFeatures(void);
+  CdetectFeatures();
   virtual ~CdetectFeatures();
 
   void run(const Image::CphotoSetS& pss,
@@ -41,7 +41,7 @@ class CdetectFeatures {
 
   std::list<int> m_jobs;
   
-  void runThread(void);
+  void runThread();
   static int runThreadTmp(void*arg);
 };
 };

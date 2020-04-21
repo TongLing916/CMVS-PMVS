@@ -16,10 +16,10 @@ using namespace Patch;
 Cexpand::Cexpand(CfindMatch& findMatch) : m_fm(findMatch) {
 }
 
-void Cexpand::init(void) {
+void Cexpand::init() {
 }
 
-void Cexpand::run(void) {
+void Cexpand::run() {
   m_fm.m_count = 0;
   m_fm.m_jobs.clear();
   m_ecounts.resize(m_fm.m_CPU);
@@ -73,7 +73,7 @@ int Cexpand::expandThreadTmp(void* arg) {
   return 0;
 }
 
-void Cexpand::expandThread(void) {
+void Cexpand::expandThread() {
   mtx_lock(&m_fm.m_lock);
   const int id = m_fm.m_count++;
   mtx_unlock(&m_fm.m_lock);

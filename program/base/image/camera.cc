@@ -7,7 +7,7 @@
 using namespace std;
 using namespace Image;
 
-Ccamera::Ccamera(void) {
+Ccamera::Ccamera() {
   m_axesScale = 1.0f;
   m_maxLevel = 1;
 }
@@ -54,7 +54,7 @@ void Ccamera::init(const std::string cname, const int maxLevel) {
   updateCamera();
 }
 
-void Ccamera::updateProjection(void) {
+void Ccamera::updateProjection() {
   // Set bottom level
   setProjection(m_intrinsics, m_extrinsics, m_projection[0], m_txtType);
 
@@ -105,7 +105,7 @@ void Ccamera::write(const std::string file) {
   ofstr.close();
 }
 
-void Ccamera::updateCamera(void) {
+void Ccamera::updateCamera() {
   updateProjection();
   
   //----------------------------------------------------------------------
@@ -133,7 +133,7 @@ void Ccamera::updateCamera(void) {
   m_ipscale = ftmp2;
 }
 
-Vec4f Ccamera::getOpticalCenter(void) const {
+Vec4f Ccamera::getOpticalCenter() const {
   // orthographic case
   Vec4f ans;
   if (m_projection[0][2][0] == 0.0 && m_projection[0][2][1] == 0.0 &&

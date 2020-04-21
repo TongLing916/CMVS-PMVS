@@ -13,8 +13,8 @@ class Cfilter {
  public:
   Cfilter(CfindMatch& findMatch);
 
-  void init(void);
-  void run(void);
+  void init();
+  void run();
 
   float computeGain(const Patch::Cpatch& patch, const int lock);
 
@@ -23,20 +23,20 @@ class Cfilter {
   
   
  protected:
-  void filterOutside(void);
-  void filterOutsideThread(void);
+  void filterOutside();
+  void filterOutsideThread();
   static int filterOutsideThreadTmp(void* arg);
 
-  void filterExact(void);
-  void filterExactThread(void);
+  void filterExact();
+  void filterExactThread();
   static int filterExactThreadTmp(void* arg);
   
   void filterNeighbor(const int time);
-  void filterSmallGroups(void);
+  void filterSmallGroups();
   void filterSmallGroupsSub(const int pid, const int id,
                             std::vector<int>& label,
                             std::list<int>& ltmp) const;
-  void setDepthMaps(void);
+  void setDepthMaps();
   void setDepthMapsVGridsVPGridsAddPatchV(const int additive);
   
   void setConf(const int image);
@@ -52,16 +52,16 @@ class Cfilter {
   //----------------------------------------------------------------------
   // Thread related
   //----------------------------------------------------------------------
-  void setDepthMapsThread(void);
+  void setDepthMapsThread();
   static int setDepthMapsThreadTmp(void* arg);
   
-  void addPatchVThread(void);
+  void addPatchVThread();
   static int addPatchVThreadTmp(void* arg);
   
-  void setVGridsVPGridsThread(void);
+  void setVGridsVPGridsThread();
   static int setVGridsVPGridsThreadTmp(void* arg);
 
-  void filterNeighborThread(void);
+  void filterNeighborThread();
   static int filterNeighborThreadTmp(void* arg);
   
   CfindMatch& m_fm;

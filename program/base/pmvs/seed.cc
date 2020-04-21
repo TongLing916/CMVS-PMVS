@@ -43,7 +43,7 @@ void Cseed::readPoints(const std::vector<std::vector<Cpoint> >& points) {
 // Arbitrary seed for deterministic pseudorandomness.
 static const unsigned int RANDOM_SEED = 42;
 
-void Cseed::run(void) {
+void Cseed::run() {
   m_fm.m_count = 0;
   m_fm.m_jobs.clear();
   m_scounts.resize(m_fm.m_CPU);
@@ -103,7 +103,7 @@ void Cseed::run(void) {
        << 100 * (pass + fail1) / (float)trial << endl;
 }
 
-void Cseed::initialMatchThread(void) {
+void Cseed::initialMatchThread() {
   mtx_lock(&m_fm.m_lock);
   const int id = m_fm.m_count++;
   mtx_unlock(&m_fm.m_lock);
@@ -128,7 +128,7 @@ int Cseed::initialMatchThreadTmp(void* arg) {
   return 0;
 }
 
-void Cseed::clear(void) {
+void Cseed::clear() {
   vector<vector<vector<Ppoint> > >().swap(m_ppoints);
 }
 

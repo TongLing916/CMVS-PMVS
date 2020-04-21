@@ -45,13 +45,13 @@ public:
   inline bool operator==(const TVec2& v) const;
   inline bool operator!=(const TVec2& v) const;
   
-  inline T norm2(void) const{
+  inline T norm2() const{
     return (*this) * (*this);
   }
-  inline T norm(void) const{
+  inline T norm() const{
     return sqrt(norm2());
   }
-  inline void unitize(void) {
+  inline void unitize() {
     const T denom2 = norm2();
     
     if(denom2 != 1.0 && denom2 != 0.0 ) {

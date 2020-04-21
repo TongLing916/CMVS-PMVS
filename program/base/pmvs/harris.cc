@@ -45,7 +45,7 @@ void Charris::init(const std::vector<unsigned char>& image,
   setGaussI(m_sigmaI, m_gaussI); 
 }
 
-void Charris::setDerivatives(void) {
+void Charris::setDerivatives() {
   // set m_dIdx, m_dIdy
   preprocess();
   
@@ -53,7 +53,7 @@ void Charris::setDerivatives(void) {
   preprocess2();
 }
 
-void Charris::preprocess2(void) {
+void Charris::preprocess2() {
   m_dIdxdIdx.clear();  m_dIdydIdy.clear();  m_dIdxdIdy.clear();
   m_dIdxdIdx.resize(m_height);
   m_dIdydIdy.resize(m_height);
@@ -103,7 +103,7 @@ void Charris::preprocess2(void) {
   convolveY(m_dIdxdIdy, m_mask, m_gaussI, vvftmp);
 }
 
-void Charris::preprocess(void) {
+void Charris::preprocess() {
   vector<vector<Vec3f> > vvvftmp;
   vvvftmp.resize(m_height);
   for (int y = 0; y < m_height; ++y) {
@@ -128,7 +128,7 @@ void Charris::preprocess(void) {
   convolveY(m_dIdy, m_mask, dfilter, vvvftmp);
 }
 
-void Charris::setResponse(void) {
+void Charris::setResponse() {
   m_response.clear();
   m_response.resize(m_height);
   for (int y = 0; y < m_height; ++y) {

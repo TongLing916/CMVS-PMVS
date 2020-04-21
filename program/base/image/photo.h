@@ -10,7 +10,7 @@ namespace Image {
 // Cphoto is an image with camera parameters
 class Cphoto : public Cimage, public Ccamera {
  public:
-  Cphoto(void);
+  Cphoto();
   virtual ~Cphoto();
 
   virtual void init(const std::string name, const std::string mname,

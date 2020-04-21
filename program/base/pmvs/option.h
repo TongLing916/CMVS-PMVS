@@ -1,14 +1,14 @@
 #ifndef PMVS3_OPTION_H
 #define PMVS3_OPTION_H
 
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
 namespace PMVS3 {
-  
-struct Soption{
-  public:
+
+struct Soption {
+ public:
   int m_level;
   int m_csize;
   float m_threshold;
@@ -19,10 +19,10 @@ struct Soption{
   int m_useBound;
   int m_useVisData;
   int m_sequence;
-  
+
   float m_maxAngleThreshold;
   float m_quadThreshold;
-  
+
   std::string m_prefix;
   std::string m_option;
   int m_tflag;
@@ -31,21 +31,21 @@ struct Soption{
   std::vector<int> m_oimages;
 
   std::map<int, int> m_dict;
-  
+
   std::vector<int> m_bindexes;
   std::vector<std::vector<int> > m_visdata;
   std::vector<std::vector<int> > m_visdata2;
-  
-  Soption(void);
-  
-  void init(const std::string prefix, const std::string option);
-  
-  protected:
-  void initOimages(void);
+
+  Soption();
+
+  void init(const std::string& prefix, const std::string& option);
+
+ protected:
+  void initOimages();
   void initBindexes(const std::string sbimages);
-  void initVisdata(void);
-  void initVisdata2(void);
+  void initVisdata();
+  void initVisdata2();
 };
 };
 
-#endif // PMVS3_OPTION_H
+#endif  // PMVS3_OPTION_H

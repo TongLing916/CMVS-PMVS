@@ -75,7 +75,7 @@ public:
     Returns the largest distance value stored in the priority queue
     \return Largest distance value
   */
-  double topdist(void)
+  double topdist()
   {
     return pq.top().first;
   }

@@ -25,11 +25,11 @@ namespace PMVS3 {
   
 class CfindMatch {
  public:
-  CfindMatch(void);
+  CfindMatch();
   virtual ~CfindMatch();
 
   void init(const PMVS3::Soption& option);
-  void run(void);
+  void run();
   void write(const std::string prefix, bool bExportPLY, bool bExportPatch, bool bExportPSet);
   
   int insideBimages(const Vec4f& coord) const;
@@ -159,10 +159,10 @@ class CfindMatch {
 
   int m_debug;
  protected:
-  void init(void);
-  void initTargets(void);
-  void updateThreshold(void);
-  void initImages(void);
+  void init();
+  void initTargets();
+  void updateThreshold();
+  void initImages();
 };
 };
 

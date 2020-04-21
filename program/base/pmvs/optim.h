@@ -12,7 +12,7 @@ class Coptim {
  public:
   Coptim(CfindMatch& findMatch);
 
-  void init(void);
+  void init();
 
   //-----------------------------------------------------------------
   // Image manipulation
@@ -125,7 +125,7 @@ class Coptim {
   
  protected:
   
-  void setAxesScales(void);
+  void setAxesScales();
   
   static Coptim* m_one;  
   CfindMatch& m_fm;

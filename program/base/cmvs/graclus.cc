@@ -5,7 +5,7 @@ using namespace CMVS;
 using namespace std;
 
 
-Cgraclus::Cgraclus(void) {
+Cgraclus::Cgraclus() {
 }
 
 Cgraclus::~Cgraclus() {
