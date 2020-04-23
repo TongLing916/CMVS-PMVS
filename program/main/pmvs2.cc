@@ -4,6 +4,8 @@
 #include "../base/pmvs/findMatch.h"
 #include "../base/pmvs/option.h"
 
+#include <glog/logging.h>
+
 using namespace PMVS3;
 using namespace std;
 
@@ -32,6 +34,9 @@ int main(int argc, char* argv[]) {
          << " i.e export patch only: prefix option_file PATCH" << endl;
     exit(1);
   }
+
+  FLAGS_colorlogtostderr = true;
+  FLAGS_stderrthreshold = google::WARNING;
 
   for (int i = 0; i < argc; ++i) {
     cout << endl << argv[i];

@@ -213,7 +213,7 @@ void CpatchOrganizerS::collectPatches(const int target) {
       vector<Ppatch>::iterator begin = m_pgrids[index][i].begin();
       while (begin != m_pgrids[index][i].end()) {
         (*begin)->m_id = -1;
-        begin++;
+        ++begin;
       }
     }
   }

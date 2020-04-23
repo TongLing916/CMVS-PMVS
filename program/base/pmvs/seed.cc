@@ -444,7 +444,6 @@ void Cseed::unproject(const int index0, const int index1, const Cpoint& p0,
   coord[3] = 1.0f;
 }
 
-// starting with (index, indexs), set visible images by looking at correlation.
 int Cseed::initialMatchSub(const int index0, const int index1, const int id,
                            Cpatch& patch) {
   //----------------------------------------------------------------------

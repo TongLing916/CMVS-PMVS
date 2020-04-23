@@ -17,6 +17,28 @@ IF(NOT CMAKE_BUILD_TYPE AND NOT MSVC)
   SET(CMAKE_BUILD_TYPE "Release")
 ENDIF(NOT CMAKE_BUILD_TYPE AND NOT MSVC)
 
+LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
+
+if (BUILD_DOC)
+  find_package(Doxygen)
+  if (DOXYGEN_FOUND)
+  	# set input and output files
+  	set(DOXYGEN_IN ${PROJECT_SOURCE_DIR}/Doxyfile.in)
+  	set(DOXYGEN_OUT ${PROJECT_SOURCE_DIR}/Doxyfile)  
+  	# request to configure the file
+  	configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+  	message("Doxygen build started")  
+  	# note the option ALL which allows to build the docs together with the application
+  	add_custom_target( doc ALL
+  		COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+  		WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+  		COMMENT "Generating API documentation with Doxygen"
+  		VERBATIM )
+  else (DOXYGEN_FOUND)
+    message("Doxygen need to be installed to generate the doxygen documentation")
+  endif (DOXYGEN_FOUND)
+endif ()
+
 INCLUDE_DIRECTORIES(
 	${CMAKE_SOURCE_DIR}/program/base/image
 	${CMAKE_SOURCE_DIR}/program/base/numeric
@@ -27,6 +49,8 @@ INCLUDE_DIRECTORIES(
 	${CMAKE_SOURCE_DIR}/thirdParty/cimg
 	${CMAKE_SOURCE_DIR}/thirdParty/tinycthread
 )
+
+FIND_PACKAGE(Glog REQUIRED)
 
 # Threads
 FIND_PACKAGE(Threads REQUIRED)

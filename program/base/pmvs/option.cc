@@ -6,6 +6,8 @@
 #include <algorithm>
 #include "option.h"
 
+#include <glog/logging.h>
+
 using namespace PMVS3;
 
 Soption::Soption() {
@@ -165,7 +167,9 @@ void Soption::init(const std::string& prefix, const std::string& option) {
 }
 
 void Soption::initOimages() {
-  if (m_oflag != -2) return;
+  if (m_oflag != -2) {
+    return;
+  }
 
   std::string svisdata = m_prefix + std::string("vis.dat");
   std::ifstream ifstr;
@@ -227,7 +231,6 @@ void Soption::initVisdata() {
     initVisdata2();
 }
 
-// Given m_timages and m_oimages, set m_visdata, m_visdata2
 void Soption::initVisdata2() {
   std::string svisdata = m_prefix + std::string("vis.dat");
 

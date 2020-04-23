@@ -43,9 +43,12 @@ void Cexpand::run() {
 
   cerr << "Expanding patches..." << flush;
   vector<thrd_t> threads(m_fm.m_CPU);
-  for (int c = 0; c < m_fm.m_CPU; ++c)
+  for (int c = 0; c < m_fm.m_CPU; ++c) {
     thrd_create(&threads[c], &expandThreadTmp, (void*)this);
-  for (int c = 0; c < m_fm.m_CPU; ++c) thrd_join(threads[c], NULL);
+  }
+  for (int c = 0; c < m_fm.m_CPU; ++c) {
+    thrd_join(threads[c], nullptr);
+  }
 
   cerr << endl
        << "---- EXPANSION: " << (time(NULL) - starttime) << " secs ----"
@@ -62,6 +65,7 @@ void Cexpand::run() {
        << ' ' << 100 * fail1 / (float)trial << ' '
        << 100 * (pass + fail1) / (float)trial << endl;
 }
+
 int Cexpand::expandThreadTmp(void* arg) {
   ((Cexpand*)arg)->expandThread();
   return 0;

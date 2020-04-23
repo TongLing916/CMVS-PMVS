@@ -89,21 +89,25 @@ void Coptim::collectImages(const int index, std::vector<int>& indexes) const {
     // if (m_fm.m_tnum <= indextmp)
     // continue;
     if (m_fm.m_sequenceThreshold != -1 &&
-        m_fm.m_sequenceThreshold < abs(index - indextmp))
+        m_fm.m_sequenceThreshold < abs(index - indextmp)) {
       continue;
+    }
 
     Vec4f ray1 = m_fm.m_pss.m_photos[indextmp].m_oaxis;
     ray1[3] = 0.0f;
 
-    if (ray0 * ray1 < cos(m_fm.m_angleThreshold0)) continue;
+    if (ray0 * ray1 < cos(m_fm.m_angleThreshold0)) {
+      continue;
+    }
 
-    candidates.push_back(
+    candidates.emplace_back(
         Vec2f(m_fm.m_pss.m_distances[index][indextmp], indextmp));
   }
 
   sort(candidates.begin(), candidates.end(), Svec2cmp<float>());
-  for (int i = 0; i < min(m_fm.m_tau, (int)candidates.size()); ++i)
-    indexes.push_back((int)candidates[i][1]);
+  for (int i = 0; i < min(m_fm.m_tau, (int)candidates.size()); ++i) {
+    indexes.emplace_back((int)candidates[i][1]);
+  }
 }
 
 int Coptim::preProcess(Cpatch& patch, const int id, const int seed) {
@@ -154,7 +158,7 @@ void Coptim::filterImagesByAngle(Cpatch& patch) {
         return;
       }
     } else
-      newindexes.push_back(index);
+      newindexes.emplace_back(index);
     ++bimage;
   }
 
@@ -211,9 +215,10 @@ void Coptim::constraintImages(Cpatch& patch, const float nccThreshold,
   //----------------------------------------------------------------------
   // Constraint images
   vector<int> newimages;
-  newimages.push_back(patch.m_images[0]);
+  newimages.emplace_back(patch.m_images[0]);
   for (int i = 1; i < (int)patch.m_images.size(); ++i) {
-    if (inccs[i] < 1.0f - nccThreshold) newimages.push_back(patch.m_images[i]);
+    if (inccs[i] < 1.0f - nccThreshold)
+      newimages.emplace_back(patch.m_images[i]);
   }
   patch.m_images.swap(newimages);
 }
@@ -232,7 +237,7 @@ void Coptim::setRefImage(Cpatch& patch, const int id) {
   vector<int>::const_iterator begin = patch.m_images.begin();
   vector<int>::const_iterator end = patch.m_images.end();
   while (begin != end) {
-    if (*begin < m_fm.m_tnum) indexes.push_back(*begin);
+    if (*begin < m_fm.m_tnum) indexes.emplace_back(*begin);
     ++begin;
   }
   // To avoid segmentation error on alley dataset. (this code is necessary
@@ -287,10 +292,10 @@ void Coptim::setRefConstraintImages(Cpatch& patch, const float nccThreshold,
 
   const float robustThreshold = robustincc(1.0f - nccThreshold);
   vector<int> newimages;
-  newimages.push_back(patch.m_images[refindex]);
+  newimages.emplace_back(patch.m_images[refindex]);
   for (int i = 0; i < (int)patch.m_images.size(); ++i)
     if (i != refindex && inccs[refindex][i] < robustThreshold)
-      newimages.push_back(patch.m_images[i]);
+      newimages.emplace_back(patch.m_images[i]);
   patch.m_images.swap(newimages);
 }
 
@@ -313,7 +318,7 @@ void Coptim::sortImages(Cpatch& patch) const {
       vector<float>::iterator ite = min_element(units.begin(), units.end());
       const int index = ite - units.begin();
 
-      patch.m_images.push_back(indexes[index]);
+      patch.m_images.emplace_back(indexes[index]);
 
       // Remove other images within 5 degrees
       indexes2.clear();
@@ -322,12 +327,12 @@ void Coptim::sortImages(Cpatch& patch) const {
       for (int j = 0; j < (int)rays.size(); ++j) {
         if (j == index) continue;
 
-        indexes2.push_back(indexes[j]);
-        rays2.push_back(rays[j]);
+        indexes2.emplace_back(indexes[j]);
+        rays2.emplace_back(rays[j]);
         const float ftmp =
             min(threshold, max(threshold / 2.0f, 1.0f - rays[index] * rays[j]));
 
-        units2.push_back(units[j] * (threshold / ftmp));
+        units2.emplace_back(units[j] * (threshold / ftmp));
       }
       indexes2.swap(indexes);
       units2.swap(units);
@@ -354,7 +359,7 @@ void Coptim::sortImages(Cpatch& patch) const {
       vector<float>::iterator ite = min_element(units.begin(), units.end());
       const int index = ite - units.begin();
 
-      patch.m_images.push_back(indexes[index]);
+      patch.m_images.emplace_back(indexes[index]);
 
       // Remove other images within 5 degrees
       indexes2.clear();
@@ -362,9 +367,9 @@ void Coptim::sortImages(Cpatch& patch) const {
       rays2.clear();
       for (int j = 0; j < (int)rays.size(); ++j) {
         if (rays[index] * rays[j] < threshold) {
-          indexes2.push_back(indexes[j]);
-          units2.push_back(units[j]);
-          rays2.push_back(rays[j]);
+          indexes2.emplace_back(indexes[j]);
+          units2.emplace_back(units[j]);
+          rays2.emplace_back(rays[j]);
         }
       }
       indexes2.swap(indexes);
@@ -404,7 +409,7 @@ void Coptim::removeImagesEdge(Patch::Cpatch& patch) const {
   vector<int>::const_iterator eimage = patch.m_images.end();
   while (bimage != eimage) {
     if (m_fm.m_pss.getEdge(patch.m_coord, *bimage, m_fm.m_level))
-      newindexes.push_back(*bimage);
+      newindexes.emplace_back(*bimage);
     ++bimage;
   }
   patch.m_images.swap(newindexes);
@@ -452,7 +457,9 @@ void Coptim::addImages(Patch::Cpatch& patch) const {
     unitize(ray);
     const float ftmp = ray * patch.m_normal;
 
-    if (athreshold <= ftmp) patch.m_images.push_back(*bimage);
+    if (athreshold <= ftmp) {
+      patch.m_images.emplace_back(*bimage);
+    }
 
     ++bimage;
   }
@@ -503,9 +510,9 @@ void Coptim::computeUnits(const Patch::Cpatch& patch, std::vector<int>& indexes,
     const float scale = getUnit(*bimage, patch.m_coord);
     const float fine = scale / dot;
 
-    indexes.push_back(*bimage);
-    units.push_back(fine);
-    rays.push_back(ray);
+    indexes.emplace_back(*bimage);
+    units.emplace_back(fine);
+    rays.emplace_back(ray);
     ++bimage;
   }
 }
